@@ -1,5 +1,5 @@
 <template>
-  <div class="square" :data-pos="this.pos" :data-piece="this.piece" @click="clickHandler">
+  <div class="square" :data-pos="this.pos" @click="clickHandler">
     <Piece :piece="this.piece" :pos="this.pos" v-if="this.piece"/>
   </div>
 </template>

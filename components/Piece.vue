@@ -1,5 +1,5 @@
 <template>
-  <img :src="rotated[this.piece]" :data-piece="this.piece"/>
+  <img :src="rotated[this.piece]"/>
 </template>
 
 <script setup>

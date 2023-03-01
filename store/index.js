@@ -35,7 +35,7 @@ export const state = () => ({
 
 export const mutations = {
   movePiece(state, pos) {
-    Vue.set(state.board[pos[1]], pos[0], document.querySelector(`[data-pos="${state.selected}"]`).dataset.piece);
+    Vue.set(state.board[pos[1]], pos[0], state.board[state.selected[1]][state.selected[0]]);
     Vue.set(state.board[state.selected[1]], state.selected[0], "");
     state.turn++;
     if (state.turn === 4) {

@@ -13,7 +13,7 @@ export default {
       }
     }
   }, props: {
-    turn: Number
+    turn: String
   }
 }
 </script>

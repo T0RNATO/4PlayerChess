@@ -12,11 +12,6 @@ export default {
     return {
       board: this.$store.state.board
     }
-  },
-  methods: {
-    skipTurn() {
-      this.$store.commit("incremementTurn");
-    }
   }
 }
 </script>

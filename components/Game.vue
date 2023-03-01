@@ -64,6 +64,14 @@ export default {
       this.$store.commit("mate", Number(this.$store.state.turn));
       this.$store.commit("incremementTurn");
     }
+  },
+  watch: {
+    turn: () => {
+      console.log("hi");
+    }
+  },
+  computed: {
+    turn() {return this.$store.state.turn}
   }
 }
 export function getMoves(xPos, yPos, board) {
