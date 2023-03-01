@@ -24,61 +24,61 @@
 
 <script>
 export default {
-  updated() {
-    this.$store.commit("clearCheck")
-    for (const square of this.$children) {
-      square.$el.classList.remove("check");
-    }
-    const board = this.$store.state.board;
-    for (const [i,row] of board.entries()) {
-      for (const [j, square] of row.entries()) {
-        // If piece in square
-        if (square) {
-          for (const move of getMoves(j, i, board).filter(move => move[2] === "capture-move")) {
-            if (board[move[1]][move[0]].charAt(0) === "K") {
-              getSquareAtPos(move[0], move[1]).classList.add("check");
-              this.$store.commit("check", board[move[1]][move[0]].charAt(1))
-            }
-          }
-        }
-      }
-    }
-
-    // Checkmate
-    let mate = true;
-    for (const [i,row] of board.entries()) {
-      for (const [j, square] of row.entries()) {
-        if (square && square.charAt(1) === String(this.$store.state.turn)) {
-          if (getNonCheckingMoves(j, i, board).length) {
-            mate = false;
-          }
-        }
-      }
-    }
-    if (mate) {
-      this.$store.commit("mate", Number(this.$store.state.turn));
-      this.$store.commit("incremementTurn");
-    }
-  },
-  watch: {
-    board: (newBoard) => {
-      if (newBoard === undefined) {
-        return
-      }
-      console.log("board", newBoard)
-      localStorage.board = JSON.stringify(newBoard);
-    },
-    turn: (newTurn) => {
-      localStorage.turn = JSON.stringify(newTurn);
-    }
-  },
+  // updated() {
+  //   this.$store.commit("clearCheck")
+  //   for (const square of this.$children) {
+  //     square.$el.classList.remove("check");
+  //   }
+  //   const board = this.$store.state.board;
+  //   for (const [i,row] of board.entries()) {
+  //     for (const [j, square] of row.entries()) {
+  //       // If piece in square
+  //       if (square) {
+  //         for (const move of getMoves(j, i, board).filter(move => move[2] === "capture-move")) {
+  //           if (board[move[1]][move[0]].charAt(0) === "K") {
+  //             getSquareAtPos(move[0], move[1]).classList.add("check");
+  //             this.$store.commit("check", board[move[1]][move[0]].charAt(1))
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  //
+  //   // Checkmate
+  //   let mate = true;
+  //   for (const [i,row] of board.entries()) {
+  //     for (const [j, square] of row.entries()) {
+  //       if (square && square.charAt(1) === String(this.$store.state.turn)) {
+  //         if (getNonCheckingMoves(j, i, board).length) {
+  //           mate = false;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   if (mate) {
+  //     this.$store.commit("mate", Number(this.$store.state.turn));
+  //     this.$store.commit("incremementTurn");
+  //   }
+  // },
+  // watch: {
+  //   board: (newBoard) => {
+  //     if (newBoard === undefined) {
+  //       return
+  //     }
+  //     console.log("board", newBoard)
+  //     localStorage.board = JSON.stringify(newBoard);
+  //   },
+  //   turn: (newTurn) => {
+  //     localStorage.turn = JSON.stringify(newTurn);
+  //   }
+  // },
   computed: {
     board() {
       return this.$store.state.board;
     },
-    turn() {
-      return this.$store.state.turn;
-    }
+  //   turn() {
+  //     return this.$store.state.turn;
+  //   }
   }
 }
 export function getMoves(xPos, yPos, board) {

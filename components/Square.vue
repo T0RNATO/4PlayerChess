@@ -1,5 +1,5 @@
 <template>
-  <div class="square" :data-pos="this.pos" @click="clickHandler">
+  <div :class="{'square': true, 'check': inCheck}" :data-pos="this.pos" @click="clickHandler">
     <Piece :piece="this.piece" :pos="this.pos" v-if="this.piece"/>
   </div>
 </template>
@@ -46,12 +46,22 @@
 </style>
 
 <script>
-import {getNonCheckingMoves, getSquareAtPos} from "./Game.vue";
+import {getNonCheckingMoves, getSquareAtPos, getMoves} from "./Game.vue";
 
 export default {
   props: {
     piece: String,
     pos: Array
+  },
+  computed: {
+    inCheck() {
+      if (this.piece.charAt(0) === "K") {
+        if (this.$store.state.check[this.piece.charAt(1)]) {
+          return true
+        }
+      }
+      return false
+    }
   },
   methods: {
     clickHandler() {
@@ -61,6 +71,41 @@ export default {
         for (const el of document.querySelectorAll(".square")) {
           el.classList.remove("valid-move", "capture-move");
         }
+
+        this.$store.commit("clearCheck")
+
+        const board = this.$store.state.board;
+        for (const [i,row] of board.entries()) {
+          for (const [j, square] of row.entries()) {
+            // If piece in square
+            if (square) {
+              for (const move of getMoves(j, i, board).filter(move => move[2] === "capture-move")) {
+                if (board[move[1]][move[0]].charAt(0) === "K") {
+                  this.$store.commit("check", board[move[1]][move[0]].charAt(1))
+                }
+              }
+            }
+          }
+        }
+
+        // Checkmate
+        let mate = true;
+        for (const [i,row] of board.entries()) {
+          for (const [j, square] of row.entries()) {
+            if (square && square.charAt(1) === String(this.$store.state.turn)) {
+              if (getNonCheckingMoves(j, i, board).length) {
+                mate = false;
+              }
+            }
+          }
+        }
+        if (mate) {
+          this.$store.commit("mate", Number(this.$store.state.turn));
+          this.$store.commit("incremementTurn");
+        }
+
+        localStorage.data = JSON.stringify(this.$store.state);
+
       } else {
         this.$store.commit("selectPiece", []);
         for (const el of document.querySelectorAll(".square")) {

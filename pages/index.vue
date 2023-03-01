@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="bg-white p-3 absolute m-2 rounded-md" @click="">Reset Board</button>
+    <button class="bg-white p-3 absolute m-2 rounded-md" @click="resetBoard">Reset Board</button>
     <div class="w-full flex justify-center h-[100vh] items-center">
       <Game :selected="this.$store.state.selected" ref="game"/>
     </div>
@@ -10,12 +10,15 @@
 <script>
 export default {
   mounted() {
-    console.log("hi")
-    if (localStorage.board) {
-      this.$store.commit("setValue", ["board", JSON.parse(localStorage.board)])
+    if (localStorage.data) {
+      const data = JSON.parse(localStorage.data);
+      this.$store.commit("setState", data);
     }
-    if (localStorage.turn) {
-      this.$store.commit("setValue", ["turn", JSON.parse(localStorage.turn)])
+  },
+  methods: {
+    resetBoard() {
+      delete localStorage.data;
+      location.reload();
     }
   }
 }
