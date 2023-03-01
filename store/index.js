@@ -76,5 +76,9 @@ export const mutations = {
   },
   mate(state, player) {
     state.mate[player] = true;
+  },
+  setValue(state, key) {
+    console.log(key[0], key[1]);
+    Vue.set(state, key[0], key[1]);
   }
 }

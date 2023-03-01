@@ -24,10 +24,6 @@
 
 <script>
 export default {
-  props: {
-    board: Array,
-    selected: Array
-  },
   updated() {
     this.$store.commit("clearCheck")
     for (const square of this.$children) {
@@ -54,7 +50,6 @@ export default {
       for (const [j, square] of row.entries()) {
         if (square && square.charAt(1) === String(this.$store.state.turn)) {
           if (getNonCheckingMoves(j, i, board).length) {
-            console.log(getNonCheckingMoves(j, i, board));
             mate = false;
           }
         }
@@ -66,12 +61,24 @@ export default {
     }
   },
   watch: {
-    turn: () => {
-      console.log("hi");
+    board: (newBoard) => {
+      if (newBoard === undefined) {
+        return
+      }
+      console.log("board", newBoard)
+      localStorage.board = JSON.stringify(newBoard);
+    },
+    turn: (newTurn) => {
+      localStorage.turn = JSON.stringify(newTurn);
     }
   },
   computed: {
-    turn() {return this.$store.state.turn}
+    board() {
+      return this.$store.state.board;
+    },
+    turn() {
+      return this.$store.state.turn;
+    }
   }
 }
 export function getMoves(xPos, yPos, board) {

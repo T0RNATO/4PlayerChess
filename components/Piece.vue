@@ -58,19 +58,10 @@ const rotated = {
 </script>
 
 <script>
-import {getNonCheckingMoves, getSquareAtPos} from "./Game.vue"
 export default {
   props: {
     piece: String,
     pos: Array
-  },
-  methods: {
-    showMoves() {
-      this.$store.commit("selectPiece", this.pos);
-      for (const move of getNonCheckingMoves(this.pos[0], this.pos[1], this.$store.state.board)) {
-        getSquareAtPos(move[0], move[1]).classList.add(move[2]);
-      }
-    }
   }
 }
 </script>
