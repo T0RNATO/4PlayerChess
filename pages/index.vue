@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button class="bg-white p-3 absolute m-2 rounded-md" @click="">Reset Board</button>
     <div class="w-full flex justify-center h-[100vh] items-center">
       <Game :selected="this.$store.state.selected" ref="game"/>
     </div>
