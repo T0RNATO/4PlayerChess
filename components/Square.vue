@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'square': true, 'check': inCheck}" :data-pos="this.pos" @click="clickHandler">
+  <div :class="{'square': true, 'check': inCheck, 'selected': this.$store.state.selected === pos}" :data-pos="this.pos" @click="clickHandler">
     <Piece :piece="this.piece" :pos="this.pos" v-if="this.piece"/>
   </div>
 </template>
@@ -17,8 +17,7 @@
   @apply group-even:odd:bg-purple-400 group-odd:even:bg-purple-400;
 }
 
-.valid-move::after /*, .capture-move::after */
-{
+.valid-move::after {
   content: "";
   border-radius: 50%;
   position: absolute;
@@ -34,14 +33,17 @@
   background: rgba(50, 50, 50, 0.5);
 }
 
-.capture-move /*::after*/
-{
+.capture-move {
   outline: rgba(255, 0, 0, 0.5) solid 5px;
   outline-offset: -5px;
 }
 
 .check {
   background: darkred !important;
+}
+
+.selected {
+  @apply !bg-green-300;
 }
 </style>
 
@@ -67,6 +69,7 @@ export default {
     clickHandler() {
       if (this.$el.classList.contains("valid-move") || this.$el.classList.contains("capture-move")) {
         this.$store.commit("movePiece", this.pos);
+        this.$store.commit("incremementTurn");
         this.$store.commit("selectPiece", []);
         for (const el of document.querySelectorAll(".square")) {
           el.classList.remove("valid-move", "capture-move");
