@@ -39,10 +39,12 @@ export const mutations = {
     Vue.set(state.board[pos[1]], pos[0], movedPiece);
     if (movedPiece.charAt(0) === "P") {
       const player = movedPiece.charAt(1);
-      if (player === "0" && pos[1] === 7) Vue.set(state.board[pos[1]], pos[0], "Q" + player);
-      if (player === "1" && pos[0] === 6) Vue.set(state.board[pos[1]], pos[0], "Q" + player);
-      if (player === "2" && pos[1] === 6) Vue.set(state.board[pos[1]], pos[0], "Q" + player);
-      if (player === "3" && pos[0] === 7) Vue.set(state.board[pos[1]], pos[0], "Q" + player);
+      if ((player === "0" && pos[1] === 7) ||
+        (player === "1" && pos[0] === 6) ||
+        (player === "2" && pos[1] === 6) ||
+        (player === "3" && pos[0] === 7)) {
+        Vue.set(state.board[pos[1]], pos[0], "Q" + player);
+      }
     }
     Vue.set(state.board[state.selected[1]], state.selected[0], "");
   },

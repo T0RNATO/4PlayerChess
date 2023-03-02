@@ -17,8 +17,10 @@ export default {
   },
   methods: {
     resetBoard() {
-      delete localStorage.data;
-      location.reload();
+      if (confirm("Reset Game?")) {
+        delete localStorage.data;
+        location.reload();
+      }
     }
   }
 }
